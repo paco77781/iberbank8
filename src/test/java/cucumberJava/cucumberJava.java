@@ -36,15 +36,15 @@ public class cucumberJava {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName","Android");
 
-      /*
+
         capabilities.setCapability("deviceName","Xperia M2");
         capabilities.setCapability("platformVersion","5.1.1");
 
-     */
 
+       /*
         capabilities.setCapability("deviceName","SM-G130HN");
         capabilities.setCapability("platformVersion","4.4.2");
-
+        */
 
         capabilities.setCapability("browser_Name","Android");
         //capabilities.setCapability("app","/android-debug.apk");
