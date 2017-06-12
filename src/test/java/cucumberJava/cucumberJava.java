@@ -28,13 +28,18 @@ import cucumber.annotation.en.When;
 
 public class cucumberJava {
     private WebDriver driver;
-
-
+    AppiumDriverLocalService appiumService ;
+    String appiumServiceUrl ;
 
     @Given("I open the app$")
 
 
     public void openDevices(){
+        appiumService = AppiumDriverLocalService.buildDefaultService();
+        appiumService.start();
+        appiumServiceUrl = appiumService.getUrl().toString();
+        System.out.println("Appium Service Address : - "+ appiumServiceUrl);
+
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName","Android");
@@ -51,12 +56,17 @@ public class cucumberJava {
         capabilities.setCapability("browser_Name","Android");
         //capabilities.setCapability("app","/android-debug.apk");
 
-        capabilities.setCapability("app","C:\\Program Files (x86)\\Jenkins\\workspace\\iberbank_maestro\\src\\apk\\android-debug.apk");
+        capabilities.setCapability("app","src/apk/android-debug.apk");
+
+        //capabilities.setCapability("app","C:\\Program Files (x86)\\Jenkins\\workspace\\iberbank_maestro\\src\\apk\\android-debug.apk");
        //capabilities.setCapability("app","src/apk/android-debug.apk");
 
         // capabilities.setCapability("app","/Iberbank_fuentes/IberBank.apk");
         try{
-            driver = new RemoteWebDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities) {};
+            //driver = new RemoteWebDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities) {};
+            driver = new AndroidDriver(new URL(appiumServiceUrl), capabilities);
+            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -145,8 +155,13 @@ public class cucumberJava {
         } catch (InterruptedException e) {
         }
 
+        System.out.println("Stop driver");
 
         driver.quit();
+        System.out.println("Stop appium service");
+        appiumService.stop();
+
+        //driver.quit();
 
 
     }
@@ -175,8 +190,13 @@ public class cucumberJava {
         } catch (InterruptedException e) {
         }
 
+        System.out.println("Stop driver");
 
         driver.quit();
+        System.out.println("Stop appium service");
+        appiumService.stop();
+
+        //driver.quit();
 
     }
 
